@@ -199,3 +199,26 @@ class InvertTDrop {
         this.curr.startUpdating(cb)
     }
 }
+
+
+class Renderer {
+
+    itd : InvertTDrop = new InvertTDrop()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.itd.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.itd.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.itd.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
