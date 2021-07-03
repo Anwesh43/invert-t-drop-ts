@@ -6,7 +6,7 @@ const colors : Array<string> = [
     "#F57C00"
 ]
 const parts : number = 4 
-const scGap : number = 0.02 / parts 
+const scGap : number = 0.04 / parts 
 const strokeFactor : number = 90 
 const sizeFactor : number = 7.8 
 const delay : number = 20 
@@ -22,7 +22,7 @@ class ScaleUtil {
     }
 
     static divideScale(scale : number, i : number, n : number) : number {
-        return Math.min(1 / n, ScaleUtil.divideScale(scale, i, n)) * n 
+        return Math.min(1 / n, ScaleUtil.maxScale(scale, i, n)) * n 
     }
 }
 
@@ -48,14 +48,14 @@ class DrawingUtil {
         context.translate(0, (h / 2) * (1 - sc2))
         DrawingUtil.drawLine(context, 0, 0, 0, size)
         context.restore()
-        DrawingUtil.drawLine(context, -size / 2, 0, size / 2, 0)
+        DrawingUtil.drawLine(context, -size * 0.5 * sc1, 0, size * 0.5 * sc1, 0)
         context.restore()
     }
 
     static drawITDNode(context : CanvasRenderingContext2D, i : number, scale : number) {
         context.lineCap = 'round'
         context.lineWidth = Math.min(w, h) / strokeFactor 
-        context.strokeStyle = backColor 
+        context.strokeStyle = colors[i] 
         DrawingUtil.drawInvertTDrop(context, scale)
     }
 }
